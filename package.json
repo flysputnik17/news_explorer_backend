@@ -1,0 +1,35 @@
+{
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^6.6.1"
+  },
+  "name": "news_explorer_backend",
+  "description": "",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "lint": "npx eslint .",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flysputnik17/news_explorer_backend.git"
+  },
+  "author": "Pavel Bandurin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flysputnik17/news_explorer_backend/issues"
+  },
+  "homepage": "https://github.com/flysputnik17/news_explorer_backend#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.7.0",
+    "eslint": "^9.7.0",
+    "eslint-config-airbnb-base": "latest",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "globals": "^15.8.0",
+    "nodemon": "^3.1.4",
+    "prettier": "^3.3.3"
+  }
+}
