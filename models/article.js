@@ -3,8 +3,7 @@ const validator = require("validator");
 const articleSchema = new mongoose.Schema({
   keyword: {
     type: String,
-    required: [true, "Need to enter Keyword"],
-    unique: true,
+    required: true,
   },
   title: {
     type: String,

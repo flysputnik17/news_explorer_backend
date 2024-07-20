@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+//for the login procces checking if there is an email in the DB after that compare the passwords and if they are ok then the user will be sent back otherwise an error message will popup
 userSchema.statics.findUserByCredentials = function findUserByCredentials(
   email,
   password
