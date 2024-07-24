@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/users");
+const User = require("../models/user");
 const { JWT_SECRET } = require("../utils/config");
 
 const UnauthorizedError = require("../utils/UnauthorizedError");
@@ -26,8 +26,9 @@ const getCurrentUser = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { email, password, name } = req.body;
-
+  const { email, password, username } = req.body;
+  console.log("req.body", req.body);
+  console.log("email", email);
   if (!email || !password) {
     next(new BadRequestError("Email or password incorrect"));
   }
@@ -39,7 +40,7 @@ const createUser = (req, res, next) => {
 
       return bcrypt
         .hash(password, 10)
-        .then((hash) => User.create({ email, password: hash, name }))
+        .then((hash) => User.create({ email, password: hash, username }))
         .then((newUser) => {
           const payload = newUser.toObject();
           delete payload.password;

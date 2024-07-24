@@ -8,7 +8,7 @@ router.post("/signin", login);
 
 router.use("/users", userRouter);
 
-router.use((next) => {
+router.use((req, res, next) => {
   next(new NotFoundError("Requested resource not found"));
 });
 

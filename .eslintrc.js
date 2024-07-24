@@ -1,8 +1,5 @@
-const { browser } = require("globals");
-
 module.exports = {
   env: {
-    browser,
     es2021: true,
     node: true,
   },

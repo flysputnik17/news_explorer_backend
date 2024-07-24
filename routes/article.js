@@ -9,7 +9,7 @@ const {
 
 router.get("/", getNews);
 router.post("/articles", createNews);
-router.put("/:articleId", deleteNews);
+router.put("/articles/articleId", deleteNews);
 router.put("/:articleId/likes", likeNews);
 router.put("/:articleId/likes", unlikeNews);
 
