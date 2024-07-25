@@ -12,7 +12,7 @@ const getNews = (res, next) => {
     });
 };
 
-const createNews = (req, res, next) => {
+const addNews = (req, res, next) => {
   const { keyword, title, text, date, source, link, image } = req.body;
   Article.create({
     keyword,
@@ -35,47 +35,47 @@ const createNews = (req, res, next) => {
     });
 };
 
-const likeNews = (req, res, next) => {
-  Article.findByIdAndUpdate(
-    req.params.itemId,
-    { $addToSet: { likes: req.user._id } },
-    { new: true }
-  )
-    .orFail()
-    .then((news) => res.status(200).send(news))
-    .catch((err) => {
-      console.error(err);
-      if (err.name === "CastError") {
-        next(new BadRequestError("Invalid data"));
-      }
-      if (err.name === "DocumentNotFoundError") {
-        next(new NotFoundError("Not found"));
-      } else {
-        next(err);
-      }
-    });
-};
+// const likeNews = (req, res, next) => {
+//   Article.findByIdAndUpdate(
+//     req.params.itemId,
+//     { $addToSet: { likes: req.user._id } },
+//     { new: true }
+//   )
+//     .orFail()
+//     .then((news) => res.status(200).send(news))
+//     .catch((err) => {
+//       console.error(err);
+//       if (err.name === "CastError") {
+//         next(new BadRequestError("Invalid data"));
+//       }
+//       if (err.name === "DocumentNotFoundError") {
+//         next(new NotFoundError("Not found"));
+//       } else {
+//         next(err);
+//       }
+//     });
+// };
 
-const unlikeNews = (req, res, next) => {
-  Article.findByIdAndUpdate(
-    req.params.newsId,
-    { $pull: { likes: req.user._id } },
-    { new: true }
-  )
-    .orFail()
-    .then((news) => res.status(200).send(news))
-    .catch((err) => {
-      console.error(err);
-      if (err.name === "CastError") {
-        next(new BadRequestError("Invalid data"));
-      }
-      if (err.name === "DocumentNotFoundError") {
-        next(new NotFoundError("Not found"));
-      } else {
-        next(err);
-      }
-    });
-};
+// const unlikeNews = (req, res, next) => {
+//   Article.findByIdAndUpdate(
+//     req.params.newsId,
+//     { $pull: { likes: req.user._id } },
+//     { new: true }
+//   )
+//     .orFail()
+//     .then((news) => res.status(200).send(news))
+//     .catch((err) => {
+//       console.error(err);
+//       if (err.name === "CastError") {
+//         next(new BadRequestError("Invalid data"));
+//       }
+//       if (err.name === "DocumentNotFoundError") {
+//         next(new NotFoundError("Not found"));
+//       } else {
+//         next(err);
+//       }
+//     });
+// };
 
 const deleteNews = (req, res, next) => {
   const { newsId } = req.params;
@@ -107,9 +107,7 @@ const deleteNews = (req, res, next) => {
 };
 
 module.exports = {
-  createNews,
+  addNews,
   getNews,
-  likeNews,
-  unlikeNews,
   deleteNews,
 };
