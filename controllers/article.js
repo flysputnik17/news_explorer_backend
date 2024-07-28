@@ -4,7 +4,7 @@ const BadRequestError = require("../utils/BadRequestError");
 const ForbiddenError = require("../utils/ForbiddenError");
 const NotFoundError = require("../utils/NotFoundError");
 
-const getNews = (res, next) => {
+const getNews = (req, res, next) => {
   Article.find({})
     .then((news) => res.send(news))
     .catch((err) => {
@@ -13,15 +13,16 @@ const getNews = (res, next) => {
 };
 
 const addNews = (req, res, next) => {
-  const { keyword, title, text, date, source, link, image } = req.body;
+  const { keyword, title, description, publishedAt, source, url, urlToImage } =
+    req.body;
   Article.create({
     keyword,
     title,
-    text,
-    date,
+    description,
+    publishedAt,
     source,
-    link,
-    image,
+    url,
+    urlToImage,
     owner: req.user._id,
   })
     .then((newNews) => res.status(201).send({ data: newNews }))
