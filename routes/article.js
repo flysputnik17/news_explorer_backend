@@ -1,13 +1,12 @@
 const router = require("express").Router();
 const { addNews, getNews, deleteNews } = require("../controllers/article");
-const auth = require("../middlewares/auth,js");
-
-router.use(auth);
+const auth = require("../middlewares/auth.js");
+// const { validateId } = require("../middlewares/validation");
 
 router.get("/", getNews);
+router.use(auth);
+
 router.post("/", addNews);
-router.put("/articleId", deleteNews);
-// router.put("/:articleId/likes", likeNews);
-// router.put("/:articleId/likes", unlikeNews);
+router.delete("/:articleId", deleteNews);
 
 module.exports = router;

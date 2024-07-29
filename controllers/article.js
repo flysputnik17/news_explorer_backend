@@ -36,6 +36,35 @@ const addNews = (req, res, next) => {
     });
 };
 
+const deleteNews = (req, res, next) => {
+  const { newsId } = req.params;
+  Article.findById(newsId)
+    .orFail()
+    .then((news) => {
+      if (String(news.owner) === req.user._id) {
+        return news.deleteOne().then(() => {
+          res.send({ message: "news deleted" });
+        });
+      }
+
+      return next(
+        new ForbiddenError("You are not authorized to delete this news.")
+      );
+    })
+    .catch((err) => {
+      console.error(err);
+      console.error("err", err);
+      if (err.name === "DocumentNotFoundError") {
+        next(new NotFoundError("Not found"));
+      }
+      if (err.name === "CastError") {
+        next(new BadRequestError("Invalid data"));
+      } else {
+        next(err);
+      }
+    });
+};
+
 // const likeNews = (req, res, next) => {
 //   Article.findByIdAndUpdate(
 //     req.params.itemId,
@@ -77,36 +106,6 @@ const addNews = (req, res, next) => {
 //       }
 //     });
 // };
-
-const deleteNews = (req, res, next) => {
-  const { newsId } = req.params;
-  Article.findById(newsId)
-    .orFail()
-    .then((news) => {
-      if (String(news.owner) === req.user._id) {
-        return news.deleteOne().then(() => {
-          res.send({ message: "news deleted" });
-        });
-      }
-
-      return next(
-        new ForbiddenError("You are not authorized to delete this news.")
-      );
-    })
-    .catch((err) => {
-      console.error(err);
-      console.error("err", err);
-      if (err.name === "DocumentNotFoundError") {
-        next(new NotFoundError("Not found"));
-      }
-      if (err.name === "CastError") {
-        next(new BadRequestError("Invalid data"));
-      } else {
-        next(err);
-      }
-    });
-};
-
 module.exports = {
   addNews,
   getNews,

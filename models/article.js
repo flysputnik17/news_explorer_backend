@@ -46,10 +46,6 @@ const articleSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  likes: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
-    default: [],
-  },
 });
 
 module.exports = mongoose.model("article", articleSchema);
