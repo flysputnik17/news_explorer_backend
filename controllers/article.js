@@ -37,8 +37,9 @@ const addNews = (req, res, next) => {
 };
 
 const deleteNews = (req, res, next) => {
-  const { newsId } = req.params;
-  Article.findById(newsId)
+  const { articleId } = req.params;
+  console.log("Received articleId:", articleId);
+  Article.findById(articleId)
     .orFail()
     .then((news) => {
       if (String(news.owner) === req.user._id) {
@@ -65,47 +66,6 @@ const deleteNews = (req, res, next) => {
     });
 };
 
-// const likeNews = (req, res, next) => {
-//   Article.findByIdAndUpdate(
-//     req.params.itemId,
-//     { $addToSet: { likes: req.user._id } },
-//     { new: true }
-//   )
-//     .orFail()
-//     .then((news) => res.status(200).send(news))
-//     .catch((err) => {
-//       console.error(err);
-//       if (err.name === "CastError") {
-//         next(new BadRequestError("Invalid data"));
-//       }
-//       if (err.name === "DocumentNotFoundError") {
-//         next(new NotFoundError("Not found"));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
-
-// const unlikeNews = (req, res, next) => {
-//   Article.findByIdAndUpdate(
-//     req.params.newsId,
-//     { $pull: { likes: req.user._id } },
-//     { new: true }
-//   )
-//     .orFail()
-//     .then((news) => res.status(200).send(news))
-//     .catch((err) => {
-//       console.error(err);
-//       if (err.name === "CastError") {
-//         next(new BadRequestError("Invalid data"));
-//       }
-//       if (err.name === "DocumentNotFoundError") {
-//         next(new NotFoundError("Not found"));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
 module.exports = {
   addNews,
   getNews,
