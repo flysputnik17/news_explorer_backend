@@ -7,6 +7,12 @@ const validateEmail = (value, helpers) => {
   }
   return helpers.error("string.email");
 };
+const validateURL = (value, helpers) => {
+  if (validator.isURL(value)) {
+    return value;
+  }
+  return helpers.error("string.uri");
+};
 
 module.exports.validateUserBody = celebrate({
   body: Joi.object().keys({
@@ -43,5 +49,33 @@ module.exports.validateAuthentication = celebrate({
 module.exports.validateId = celebrate({
   params: Joi.object().keys({
     articleId: Joi.string().hex().length(24).required(),
+  }),
+});
+
+module.exports.validateNewsBody = celebrate({
+  body: Joi.object().keys({
+    keyword: Joi.string().required().messages({
+      "string.empty": 'The "keyword" is missing',
+    }),
+    title: Joi.string().required().messages({
+      "string.empty": 'The "title" is missing',
+    }),
+    description: Joi.string().required().messages({
+      "string.empty": 'The "description" is missing',
+    }),
+    publishedAt: Joi.string().required().messages({
+      "string.empty": 'The "date" is missing',
+    }),
+    source: Joi.string().required().messages({
+      "string.empty": 'The "source" is missing',
+    }),
+    url: Joi.string().required().custom(validateURL).messages({
+      "string.empty": 'The "urlToImage" is missing',
+      "string.uri": 'the "urlToImage"  must be a valid url',
+    }),
+    urlToImage: Joi.string().required().custom(validateURL).messages({
+      "string.empty": 'The "urlToImage" is missing',
+      "string.uri": 'the "urlToImage"  must be a valid url',
+    }),
   }),
 });

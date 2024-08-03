@@ -8,12 +8,15 @@ const errorHandler = require("./middlewares/error-handler");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const app = express();
-const { PORT = 3001 } = process.env;
+const { PORT = 3001, DB_CONNECTION_STRING } = process.env;
 
 console.log("process.env:", process.env.NODE_ENV);
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/news_explorer_db")
+  .connect(DB_CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Connected to DB news_explorer_db");
   })
