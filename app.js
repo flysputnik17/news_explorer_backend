@@ -6,11 +6,9 @@ const { errors } = require("celebrate");
 const mainRouter = require("./routes/index");
 const errorHandler = require("./middlewares/error-handler");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
+const { DB_CONNECTION_STRING, PORT } = require("./config");
 
 const app = express();
-const { PORT = 3001, DB_CONNECTION_STRING } = process.env;
-
-console.log("process.env:", process.env.NODE_ENV);
 
 mongoose
   .connect(DB_CONNECTION_STRING, {
@@ -30,6 +28,6 @@ app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(3001, () => {
-  console.log(`server is running on port ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
