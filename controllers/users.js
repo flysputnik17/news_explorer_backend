@@ -26,7 +26,7 @@ const getCurrentUser = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { email, password, username } = req.body;
+  const { email, password, name } = req.body;
   console.log("req.body", req.body);
   console.log("email", email);
   if (!email || !password) {
@@ -40,7 +40,7 @@ const createUser = (req, res, next) => {
 
       return bcrypt
         .hash(password, 10)
-        .then((hash) => User.create({ email, password: hash, username }))
+        .then((hash) => User.create({ email, password: hash, name }))
         .then((newUser) => {
           const payload = newUser.toObject();
           delete payload.password;
