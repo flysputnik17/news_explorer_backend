@@ -3,8 +3,8 @@ const { addNews, getNews, deleteNews } = require("../controllers/article");
 const auth = require("../middlewares/auth.js");
 const { validateId } = require("../middlewares/validation");
 
-router.get("/", getNews);
 router.use(auth);
+router.get("/", getNews);
 
 router.post("/", addNews);
 router.delete("/:articleId", validateId, deleteNews);

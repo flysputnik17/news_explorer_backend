@@ -5,10 +5,19 @@ const ForbiddenError = require("../utils/ForbiddenError");
 const NotFoundError = require("../utils/NotFoundError");
 
 const getNews = (req, res, next) => {
-  Article.find({})
+  Article.find({ owner: req.user._id })
     .then((news) => res.send(news))
     .catch((err) => {
-      next(err);
+      console.error("Error in getNews:", err); // Log the specific error
+      if (err.name === "ValidationError") {
+        next(new BadRequestError("Invalid data"));
+      } else if (err.name === "CastError") {
+        next(new BadRequestError("Invalid ID format"));
+      } else if (err.name === "DocumentNotFoundError") {
+        next(new NotFoundError("Not found"));
+      } else {
+        next(err);
+      }
     });
 };
 
