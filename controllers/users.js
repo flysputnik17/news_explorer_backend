@@ -25,35 +25,57 @@ const getCurrentUser = (req, res, next) => {
     });
 };
 
-const createUser = (req, res, next) => {
+const createUser = async (req, res, next) => {
   const { email, password, name } = req.body;
-  if (!email || !password) {
-    next(new BadRequestError("Email or password incorrect"));
-  }
-  User.findOne({ email })
-    .then((user) => {
-      if (user) {
-        next(new ConflictError("This email is already registered"));
-      }
 
-      return bcrypt
-        .hash(password, 10)
-        .then((hash) => User.create({ email, password: hash, name }))
-        .then((newUser) => {
-          const payload = newUser.toObject();
-          delete payload.password;
-          res.status(201).send({ data: payload });
-        });
-    })
-    .catch((err) => {
-      console.error(err);
-      if (err.name === "ValidationError") {
-        next(new BadRequestError("Invalid data"));
-      } else {
-        next(err);
-      }
-    });
+  try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      throw new ConflictError("User with this email already exists");
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await User.create({ email, password: hashedPassword, name });
+
+    res.status(201).send({ message: "User registered successfully" });
+  } catch (error) {
+    if (error.name === "ValidationError") {
+      next(new BadRequestError("Invalid user data"));
+    } else {
+      next(error);
+    }
+  }
 };
+
+// const createUser = (req, res, next) => {
+//   const { email, password, name } = req.body;
+//   if (!email || !password) {
+//     next(new BadRequestError("Email or password incorrect"));
+//   }
+//   User.findOne({ email })
+//     .then((user) => {
+//       if (user) {
+//         next(new ConflictError("This email is already registered"));
+//       }
+
+//       return bcrypt
+//         .hash(password, 10)
+//         .then((hash) => User.create({ email, password: hash, name }))
+//         .then((newUser) => {
+//           const payload = newUser.toObject();
+//           delete payload.password;
+//           res.status(201).send({ data: payload });
+//         });
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//       if (err.name === "ValidationError") {
+//         next(new BadRequestError("Invalid data"));
+//       } else {
+//         next(err);
+//       }
+//     });
+// };
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
