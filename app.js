@@ -9,6 +9,7 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 const { DB_CONNECTION_STRING, PORT } = require("./config");
 
 const app = express();
+app.use(cors());
 
 mongoose
   .connect(DB_CONNECTION_STRING, {
@@ -20,7 +21,6 @@ mongoose
   })
   .catch(console.error);
 
-app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
 app.use("/", mainRouter);

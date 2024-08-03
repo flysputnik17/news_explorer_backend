@@ -27,8 +27,6 @@ const getCurrentUser = (req, res, next) => {
 
 const createUser = (req, res, next) => {
   const { email, password, name } = req.body;
-  console.log("req.body", req.body);
-  console.log("email", email);
   if (!email || !password) {
     next(new BadRequestError("Email or password incorrect"));
   }
@@ -44,7 +42,6 @@ const createUser = (req, res, next) => {
         .then((newUser) => {
           const payload = newUser.toObject();
           delete payload.password;
-          console.log("backend test");
           res.status(201).send({ data: payload });
         });
     })
@@ -60,7 +57,6 @@ const createUser = (req, res, next) => {
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
-  console.log("email", email);
   if (!email || !password) {
     next(new BadRequestError("Email or password incorrect"));
   }
