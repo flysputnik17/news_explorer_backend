@@ -9,7 +9,11 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 const { DB_CONNECTION_STRING, PORT } = require("./config");
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+  origin: "https://newsexplorer.jumpingcrab.com", // Update with your actual frontend URL
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 mongoose
   .connect(DB_CONNECTION_STRING, {
