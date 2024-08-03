@@ -35,10 +35,18 @@ const createUser = async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await User.create({ email, password: hashedPassword, name });
+    const user = await User.create({ email, password: hashedPassword, name });
 
-    res.status(201).send({ message: "User registered successfully" });
+    res.status(201).send({
+      message: "User registered successfully",
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+      },
+    });
   } catch (error) {
+    console.error("Error in createUser:", error); // Detailed error logging
     if (error.name === "ValidationError") {
       next(new BadRequestError("Invalid user data"));
     } else {
