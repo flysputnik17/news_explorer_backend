@@ -10,7 +10,7 @@ const { DB_CONNECTION_STRING, PORT } = require("./utils/config");
 
 const app = express();
 const corsOptions = {
-  origin: "https://https://newsexplorer.jumpingcrab.com/", // Update with your actual frontend URL
+  origin: "https://https://newsexplorer.jumpingcrab.com", // Update with your actual frontend URL
   optionsSuccessStatus: 200,
 };
 
