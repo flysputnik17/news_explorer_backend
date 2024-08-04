@@ -10,7 +10,10 @@ const { DB_CONNECTION_STRING, PORT } = require("./utils/config");
 
 const app = express();
 const corsOptions = {
-  origin: "https://newsexplorer.jumpingcrab.com",
+  origin:
+    process.env.NODE_ENV === "production"
+      ? "https://newsexplorer.jumpingcrab.com"
+      : "http://localhost:3000",
   optionsSuccessStatus: 200,
 };
 
