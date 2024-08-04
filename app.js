@@ -10,6 +10,11 @@ const { DB_CONNECTION_STRING, PORT, NODE_ENV } = require("./utils/config");
 
 const app = express();
 
+console.log(`NODE_ENV: ${NODE_ENV}`);
+
+console.log(`DB_CONNECTION_STRING: ${DB_CONNECTION_STRING}`);
+console.log(`PORT: ${PORT}`);
+
 const corsOptions = {
   origin:
     NODE_ENV === "production"
@@ -28,7 +33,10 @@ mongoose
   .then(() => {
     console.log("Connected to DB news_explorer_db");
   })
-  .catch(console.error);
+  .catch((err) => {
+    console.error("Error connecting to MongoDB", err.message);
+    process.exit(1);
+  });
 
 app.use(cors(corsOptions));
 app.use(express.json());
