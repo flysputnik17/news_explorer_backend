@@ -1,6 +1,6 @@
 ## The Link for the project
 
-<a href="https://newsexplorer.jumpingcrab.com](https://news-explorer-frontend.vercel.app/" target="blank">newsexplorer.jumpingcrab.com</a>
+<a href="https://news-explorer-frontend.vercel.app" target="blank">newsexplorer</a>
 
 ## Description and functionality
 
