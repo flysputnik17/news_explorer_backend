@@ -17,7 +17,11 @@ router.post("/signin", validateAuthentication, login);
 router.use("/users", userRouter);
 
 router.use((req, res, next) => {
-  next(new NotFoundError("Requested resource not found"));
+  if (req.originalUrl === "/") {
+    res.send("Welcome to the NEWS EXPLORER API");
+  } else {
+    next(new NotFoundError("Requested resource not found"));
+  }
 });
 
 module.exports = router;
