@@ -7,6 +7,7 @@ const mainRouter = require("./routes/index");
 const errorHandler = require("./middlewares/error-handler");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const { DB_CONNECTION_STRING, PORT } = require("./utils/config");
+const process = require("process");
 
 const app = express();
 
